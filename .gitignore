@@ -21,6 +21,7 @@ hs_err_pid*
 *.DS_Store
 Moocs/.classpath
 Moocs/.settings/*
+Moocs/.project
 
 #Maven
 target/
