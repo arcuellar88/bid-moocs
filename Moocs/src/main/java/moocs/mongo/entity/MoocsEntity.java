@@ -56,6 +56,7 @@ public abstract class MoocsEntity {
 	public void addColumn(String c)
 	{
 		String fc="";
+		
 		if(c != null)
 		{
 			if(c.length()>1)
@@ -64,7 +65,7 @@ public abstract class MoocsEntity {
 			}
 			else
 			{
-				fc=c;
+				fc=c.replaceAll(",","");
 			}
 			
 		}

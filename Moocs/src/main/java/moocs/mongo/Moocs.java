@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Properties;
@@ -24,6 +25,8 @@ import moocs.mongo.entity.UserIDs;
 import org.bson.Document;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
 import com.mongodb.client.DistinctIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.ListDatabasesIterable;
@@ -53,9 +56,16 @@ public class Moocs
 		//Read the connection properties
 		initialize(config);
     	
+
+		
+				
+		MongoCredential credential = MongoCredential.createCredential(prop.getProperty("username"), prop.getProperty("database"),prop.getProperty("password").toCharArray());
+
 		//Connect to mongodb
-		mongo = new MongoClient( prop.getProperty("mongo_ip") , Integer.parseInt(prop.getProperty("mongo_port") ));
-    	db = mongo.getDatabase("edx");
+		mongo = new MongoClient(Arrays.asList(new ServerAddress(prop.getProperty("mongo_ip"), Integer.parseInt(prop.getProperty("mongo_port")))),Arrays.asList(credential));
+    	
+		db = mongo.getDatabase("edx");
+    
     	cmoocs= new HashMap<String, String>();
     	
     	
@@ -72,10 +82,10 @@ public class Moocs
 	public PrintWriter createPW(String fname,boolean append) throws IOException
 	{
 
-	     OutputStream os = new FileOutputStream("test.txt");
+	     OutputStream os = new FileOutputStream(fname,append);
          
 	    PrintWriter out = new PrintWriter(new OutputStreamWriter(
-	    		os, StandardCharsets.UTF_8), append);
+	    		os, StandardCharsets.UTF_8), true);
 	    
 	    return out;
 	}
@@ -110,8 +120,8 @@ public class Moocs
    				export(mongocourse_id,menr,MDB_ENROLLMENTS);
    				export(mongocourse_id,mdem,MDB_DEMOGRAPHICS);
    				exportDistinct(mongocourse_id,mcou,MDB_COURSEWARE,"student_id");
-   				export(mongocourse_id,muse,MDB_USERS);
-   				export(mongocourse_id,muid,MDB_USERIDS);    		
+   				//export(mongocourse_id,muse,MDB_USERS);
+   				//export(mongocourse_id,muid,MDB_USERIDS);    		
    				}
    		}
    		
