@@ -7,6 +7,6 @@
 cd /Path/To/Moocs
 mvn package
 ```
-3) Put the mongo.jar file next to the mongo.properties 
+3) Put the mongo.jar file next to the mongo.properties  <br />
 4) Change the mongo.properties and run mongo.jar
 
