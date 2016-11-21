@@ -56,14 +56,19 @@ public class Moocs
 		//Read the connection properties
 		initialize(config);
     	
-
+		if(prop.getProperty("username")!=null && !prop.getProperty("username").equals(""))
+		{ 
+			//Connect to mongodb without credentials
+			mongo = new MongoClient( prop.getProperty("mongo_ip") , Integer.parseInt(prop.getProperty("mongo_port") ));
+		}
+		else
+		{
+			MongoCredential credential = MongoCredential.createCredential(prop.getProperty("username"), prop.getProperty("database"),prop.getProperty("password").toCharArray());
+			//Connect to mongodb
+			mongo = new MongoClient(Arrays.asList(new ServerAddress(prop.getProperty("mongo_ip"), Integer.parseInt(prop.getProperty("mongo_port")))),Arrays.asList(credential));
 		
-				
-		MongoCredential credential = MongoCredential.createCredential(prop.getProperty("username"), prop.getProperty("database"),prop.getProperty("password").toCharArray());
-
-		//Connect to mongodb
-		mongo = new MongoClient(Arrays.asList(new ServerAddress(prop.getProperty("mongo_ip"), Integer.parseInt(prop.getProperty("mongo_port")))),Arrays.asList(credential));
-    	
+		}
+	    	
 		db = mongo.getDatabase("edx");
     
     	cmoocs= new HashMap<String, String>();
