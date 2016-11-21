@@ -2,7 +2,7 @@
 
 ## Create a new mongo.jar file with MAVEN
 1) Clone or download the files from github <br />
-2) Generate the mongo.jar
+2) Generate jar file: mongo.jar
 ```{r, engine='sh', count_lines}
 cd /Path/To/Moocs
 mvn package
